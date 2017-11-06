@@ -18,6 +18,7 @@ package com.example.android.sunshine;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,6 +33,8 @@ import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static String TAG = MainActivity.class.getName();
 
     private TextView mWeatherTextView;
 
@@ -92,13 +95,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pbLoading.setVisibility(View.VISIBLE);
+            Log.d(TAG, "onPreExecute");
         }
 
         @Override
         protected String[] doInBackground(String... params) {
-
             /* If there's no zip code, there's nothing to look up. */
-            if (params.length == 0) {
+            if (params == null || params.length == 0) {
+                Log.d(TAG, "onPreExecute got no params");
                 return null;
             }
 
@@ -115,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 return simpleJsonWeatherData;
 
             } catch (Exception e) {
+                Log.d(TAG, "onPreExecute failed"+e.getMessage());
                 e.printStackTrace();
                 return null;
             }
@@ -122,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String[] weatherData) {
+            Log.d(TAG, "onPostExecute");
             // DONE (19) As soon as the data is finished loading, hide the loading indicator
             pbLoading.setVisibility(View.INVISIBLE);
 
