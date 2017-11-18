@@ -215,7 +215,7 @@ public class DetailActivity extends AppCompatActivity
         final String tempMin = SunshineWeatherUtils.formatTemperature(this, data.getDouble(INDEX_COLUMN_TEMP_MIN));
         mTvTempMin.setText(tempMin);
 //      DONE (30) Display the humidity
-        final String humidity = SunshineWeatherUtils.formatHumidity(this, data.getDouble(INDEX_COLUMN_TEMP_MIN));
+        final String humidity = SunshineWeatherUtils.formatHumidity(this, data.getDouble(INDEX_COLUMN_HUMIDITY));
         mTvHumidity.setText(humidity);
 //      DONE (31) Display the wind speed and direction
         final float windSpeed = data.getFloat(INDEX_COLUMN_WIND_SPEED);
