@@ -187,7 +187,7 @@ public class DetailActivity extends AppCompatActivity
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 //          DONE (23) If the loader requested is our detail loader, return the appropriate CursorLoader
-        if (id != LOADER_ID) return null;
+        if (id != LOADER_ID) throw new RuntimeException("Loader not implemented: "+id);
         return new CursorLoader(this, mUri, sPROJECTION, null, null, null);
     }
 
@@ -196,9 +196,7 @@ public class DetailActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 //      DONE (25) Check before doing anything that the Cursor has valid data
         if (data == null) return;
-        if (data.getCount() != 1) return;
-
-        data.moveToFirst();
+        if (!data.moveToFirst()) return;
 
 //      DONE (26) Display a readable data string
         final long date = data.getLong(INDEX_COLUMN_DATE);
