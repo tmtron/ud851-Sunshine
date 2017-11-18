@@ -312,15 +312,19 @@ public class WeatherProvider extends ContentProvider {
 //          DONE (2) Only implement the functionality, given the proper URI, to delete ALL rows in the weather table
         if (match == CODE_WEATHER) {
             final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+            // selection of 1 means to delete everything
+            if (null == selection) selection = "1";
             noOfDeletedRows = db.delete(WeatherContract.WeatherEntry.TABLE_NAME, selection, selectionArgs);
-        }
-        if (noOfDeletedRows > 0) {
-            final Context context = getContext();
-            if (context != null) context.getContentResolver().notifyChange(uri, null);
-        }
+            if (noOfDeletedRows > 0) {
+                final Context context = getContext();
+                if (context != null) context.getContentResolver().notifyChange(uri, null);
+            }
 
 //      DONE (3) Return the number of rows deleted
-        return noOfDeletedRows;
+            return noOfDeletedRows;
+        }
+
+        throw new UnsupportedOperationException("Unknown uri: "+uri);
     }
 
     /**
