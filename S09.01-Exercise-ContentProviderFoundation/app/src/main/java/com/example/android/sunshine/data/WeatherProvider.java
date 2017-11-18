@@ -56,8 +56,8 @@ public class WeatherProvider extends ContentProvider {
     public static UriMatcher buildUriMatcher() {
         final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(WeatherContract.CONTENT_AUTHORITY, WeatherContract.PATH_WEATHER, CODE_WEATHER);
-        // TODO MTR: not sure if this path is okay
-        uriMatcher.addURI(WeatherContract.CONTENT_AUTHORITY, WeatherContract.PATH_WEATHER+"/*", CODE_WEATHER_WITH_DATE);
+        // MTR: use # instead of * (we only need the long number for the data)
+        uriMatcher.addURI(WeatherContract.CONTENT_AUTHORITY, WeatherContract.PATH_WEATHER+"/#", CODE_WEATHER_WITH_DATE);
         return uriMatcher;
     }
 
@@ -126,11 +126,8 @@ public class WeatherProvider extends ContentProvider {
                 break;
             case CODE_WEATHER_WITH_DATE:
                 // uri is: "content://com.example.android.sunshine/weather/<date>"
-                // TODO: not sure about the date-conversion
-                String dateParam = uri.getPathSegments().get(1);
-                final long date = Long.valueOf(dateParam);
-                // normalize to the start of the day
-                long normalizedUtcDate = SunshineDateUtils.normalizeDate(date);
+                // TODO: the caller will already pass in the normalized UTC date string
+                String normalizedUtcDate = uri.getLastPathSegment();
                 final String dateSelection = WeatherEntry.COLUMN_DATE+"=?";
                 final String[] dateSelectionArgs = new String[] {""+normalizedUtcDate};
                 result = db.query(WeatherEntry.TABLE_NAME
