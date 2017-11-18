@@ -48,8 +48,8 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
      * The interface that receives onClick messages.
      */
     public interface ForecastAdapterOnClickHandler {
-//      TODO (36) Refactor onClick to accept a long as its parameter rather than a String
-        void onClick(String weatherForDay);
+//      DONE (36) Refactor onClick to accept a long as its parameter rather than a String
+        void onClick(long dateInMs);
     }
 
     private Cursor mCursor;
@@ -119,8 +119,7 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
         /* Read low temperature from the cursor (in degrees celsius) */
         double lowInCelsius = mCursor.getDouble(MainActivity.INDEX_WEATHER_MIN_TEMP);
 
-        String highAndLowTemperature =
-                SunshineWeatherUtils.formatHighLows(mContext, highInCelsius, lowInCelsius);
+        String highAndLowTemperature = SunshineWeatherUtils.formatHighLows(mContext, highInCelsius, lowInCelsius);
 
         String weatherSummary = dateString + " - " + description + " - " + highAndLowTemperature;
 
@@ -177,9 +176,12 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
          */
         @Override
         public void onClick(View v) {
-//          TODO (37) Instead of passing the String for the clicked item, pass the date from the cursor
-            String weatherForDay = weatherSummary.getText().toString();
-            mClickHandler.onClick(weatherForDay);
+            final int adapterPosition = getAdapterPosition();
+            if (mCursor.moveToPosition(adapterPosition)) {
+//          DONE (37) Instead of passing the String for the clicked item, pass the date from the cursor
+                final long date = mCursor.getLong(MainActivity.INDEX_WEATHER_DATE);
+                mClickHandler.onClick(date);
+            }
         }
     }
 }

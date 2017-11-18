@@ -65,6 +65,18 @@ public final class SunshineWeatherUtils {
         return String.format(context.getString(temperatureFormatResourceId), temperature);
     }
 
+    public static String formatHumidity(Context context, double humidity) {
+        int formatHumidity = R.string.format_humidity;
+
+        return String.format(context.getString(formatHumidity), humidity);
+    }
+
+    public static String formatPressure(Context context, double pressure) {
+        int formatPressure = R.string.format_pressure;
+
+        return String.format(context.getString(formatPressure), pressure);
+    }
+
     /**
      * This method will format the temperatures to be displayed in the
      * following form: "HIGH° / LOW°"
