@@ -82,6 +82,15 @@ public final class SunshinePreferences {
         return sp.getString(keyForLocation, defaultLocation);
     }
 
+    public static boolean areNotificationsEnabled(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String prefKey = context.getString(R.string.pref_enable_notifications_key);
+        boolean defaultValue = context.getResources().getBoolean(R.bool.show_notifications_by_default);
+
+        return sp.getBoolean(prefKey, defaultValue);
+    }
+
     /**
      * Returns true if the user has selected metric temperature display.
      *
