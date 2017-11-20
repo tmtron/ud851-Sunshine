@@ -1,4 +1,4 @@
-/*
+package com.example.android.sunshine.sync;/*
  * Copyright (C) 2016 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,13 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// TODO (2) Make sure you've imported the jobdispatcher.JobService, not job.JobService
+import android.os.AsyncTask;
 
-// TODO (3) Add a class called SunshineFirebaseJobService that extends jobdispatcher.JobService
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.JobService;
 
-//  TODO (4) Declare an ASyncTask field called mFetchWeatherTask
+// DONE (3) Add a class called SunshineFirebaseJobService that extends jobdispatcher.JobService
+// DONE (2) Make sure you've imported the jobdispatcher.JobService, not job.JobService
+public class SunshineFirebaseJobService extends JobService {
 
-//  TODO (5) Override onStartJob and within it, spawn off a separate ASyncTask to sync weather data
-//              TODO (6) Once the weather data is sync'd, call jobFinished with the appropriate arguments
+//  DONE (4) Declare an ASyncTask field called mFetchWeatherTask
+    private AsyncTask mFetchWeatherTask;
 
-//  TODO (7) Override onStopJob, cancel the ASyncTask if it's not null and return true
+
+    @Override
+    public boolean onStartJob(final JobParameters jobParameters) {
+//  DONE (5) Override onStartJob and within it, spawn off a separate ASyncTask to sync weather data
+//              DONE (6) Once the weather data is sync'd, call jobFinished with the appropriate arguments
+        mFetchWeatherTask = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                SunshineSyncUtils.startImmediateSync(SunshineFirebaseJobService.this);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                // TODO MTR not sure if I need to Reschedule: solution uses false
+                jobFinished(jobParameters, false);
+            }
+        };
+
+        return true;
+    }
+
+//  DONE(7) Override onStopJob, cancel the ASyncTask if it's not null and return true
+    @Override
+    public boolean onStopJob(JobParameters job) {
+        if (mFetchWeatherTask != null) mFetchWeatherTask.cancel(true);
+        return true;
+    }
+
+}

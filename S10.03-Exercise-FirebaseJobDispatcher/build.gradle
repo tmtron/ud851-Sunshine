@@ -20,6 +20,7 @@ allprojects {
     repositories {
         jcenter()
         google()
+        maven { url "http://jcenter.bintray.com" } // for firebase-jobdispatcher
     }
 }
 
