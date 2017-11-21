@@ -14,28 +14,83 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<!-- TODO (2) Remove the old layout -->
-<!-- TODO (3) Use ConstraintLayout to create the new list item layout -->
-<LinearLayout
+<!-- DONE (2) Remove the old layout -->
+<!-- DONE (3) Use ConstraintLayout to create the new list item layout -->
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <!-- This TextView holds the weather data for one particular day in the forecast -->
     <TextView
-        android:id="@+id/tv_weather_data"
-        style="@style/TextAppearance.AppCompat.Large"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_weather_date"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="16dp"/>
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:paddingTop="8dp"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_constraintEnd_toStartOf="@+id/tv_text_max"
+        app:layout_constraintStart_toEndOf="@+id/iv_weather_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Today, December 15"/>
 
     <!-- This View serves as a visual divider between list items -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="#dadada"/>
+        android:background="#dadada"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_temp_min"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/iv_weather_icon"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/art_clear"/>
+
+    <TextView
+        android:id="@+id/tv_temp_min"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="23°"/>
+
+    <TextView
+        android:id="@+id/tv_text_max"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintEnd_toStartOf="@+id/tv_temp_min"
+        app:layout_constraintTop_toTopOf="@+id/tv_temp_min"
+        tools:text="18°"/>
+
+    <TextView
+        android:id="@+id/tv_weather_condition"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_weather_date"
+        app:layout_constraintStart_toStartOf="@+id/tv_weather_date"
+        app:layout_constraintTop_toBottomOf="@+id/tv_weather_date"
+        tools:text="Moderate Rain"/>
+
+</android.support.constraint.ConstraintLayout>
